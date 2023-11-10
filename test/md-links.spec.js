@@ -8,3 +8,11 @@ describe('mdLinks', () => {
   });
 
 });
+
+const mdLinks = require("md-links");
+
+// mdLinks("./some/example.md")
+//   .then(links => {
+//     // => [{ href, text, file }, ...]
+//   })
+//   .catch(console.error);

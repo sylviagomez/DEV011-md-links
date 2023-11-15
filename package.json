@@ -19,5 +19,8 @@
     "test": "npm run test"
   },
   "author": "Sylvia Gomez",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }

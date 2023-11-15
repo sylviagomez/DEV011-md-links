@@ -2,9 +2,11 @@ const readline = require('readline')
 const fs = require('fs');
 const path = require('path'); 
 const filePath = 'README.md';
+
+
 // ------------------------------Absolute path-----------------------------
-function getAbsolutePath(filePath) {
-      const absolutePath = path.resolve(filePath);
+function getAbsolutePath(file) {
+      const absolutePath = path.resolve(file);
       return absolutePath;
 };
 
@@ -78,14 +80,3 @@ module.exports = {
    validatePathExists,
    validateMdExtension,
 };
-
-console.log(getAbsolutePath(filePath));
-
-
-validatePathExists (filePath)
-.then((res) => console.log(res))
-.catch((err) => console.log(err));
-
-validateMdExtension (filePath)
-.then((res) => console.log(res))
-.catch((err) => console.log(err));

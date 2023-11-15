@@ -1,21 +1,26 @@
 // const mdLinks = require('md-links');
-const path = require('path');
-const fs = require('fs');
-const filePath = 'README.md';
+const { getAbsolutePath,
+   validatePathExists,
+   validateMdExtension,
+} = require('./functions');
 
-function mdLinks(filePath) {
+
+
+
+function mdLinks(userPath) {
   return new Promise((resolve, reject) => {
-    const absolutePath = path.resolve(filePath);
-    if (!fs.existsSync(absolutePath)) {  
-      reject(new Error('La ruta no existe'))
-    }else if (path.extname(absolutePath) !== '.md' ){
-      reject(new Error('La ruta no es un archivo Markdown'))
-    }else {
-      resolve ('funciona');
-    }
+   const absolutePath=getAbsolutePath(userPath);
+   validatePathExists(absolutePath)
+      .then(() => validateMdExtension(absolutePath))
+      .then(() => {
+         console.log('Todas las validaciones han pasado correctamente.');
+      })
+      .catch((error) => {
+         console.error('Error:', error.message);
+      });
 });
-}
+};
+
+// --------------------------------Exports---------------------------------
 
 module.exports = mdLinks;
-
-console.log(mdLinks (filePath).then(res=>console.log(res)).catch(err=>console.log(err)));

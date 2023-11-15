@@ -1,24 +1,21 @@
-module.exports = () => {
-  // ...
-};
+// const mdLinks = require('md-links');
+const path = require('path');
+const fs = require('fs');
+const filePath = 'README.md';
 
-const mdLinks = require("md-links");
-const { unlink } = require('node:fs/promises');
-
-function deleteFile(path) {
-  return unlink(path)
-    .then(() => {
-      console.log(`successfully deleted ${path}`);
-    })
-    .catch((error) => {
-      console.error('there was an error:', error.message);
-    });
+function mdLinks(filePath) {
+  return new Promise((resolve, reject) => {
+    const absolutePath = path.resolve(filePath);
+    if (!fs.existsSync(absolutePath)) {  
+      reject(new Error('La ruta no existe'))
+    }else if (path.extname(absolutePath) !== '.md' ){
+      reject(new Error('La ruta no es un archivo Markdown'))
+    }else {
+      resolve ('funciona');
+    }
+});
 }
 
-deleteFile('/tmp/hello');
+module.exports = mdLinks;
 
-mdLinks("./some/example.md")
-  .then(links => {
-    // => [{ href, text, file }, ...]
-  })
-  .catch(console.error);
+console.log(mdLinks (filePath).then(res=>console.log(res)).catch(err=>console.log(err)));

@@ -1,4 +1,4 @@
-Quiero leer y analzar archivos Markdown para verificar los links que contengan y reportenode algunas estadísticas
+Quiero leer y analizar archivos Markdown para verificar los links que contengan y reporten algunas estadísticas
 Desarrollar una librería de Node.js para analizar links dentro de archivos Markdown
 Instalar con NPM
 Publicar en GitHub

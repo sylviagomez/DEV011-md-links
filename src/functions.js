@@ -1,7 +1,6 @@
-const readline = require('readline')
 const fs = require('fs');
 const path = require('path'); 
-const filePath = 'README.md';
+const filePath = 'docs/01-milestone.md';
 
 
 // ------------------------------Absolute path-----------------------------
@@ -34,49 +33,22 @@ function validateMdExtension(extension) {
 });
 }
 // -------------------------------Read file--------------------------------
-// console.log("Opening file!");
-
-// fs.stat('README.md', function(err, stats) {
-//    if (err) {
-//       return console.error(err);
-//    }
-
-//    const buf = Buffer.alloc(stats.size);
-
-//    console.log("File open successfully");
-//    console.log("Reading the file");
-
-//    fs.open('README.md', 'r', function(err, fd) {
-//       if (err) {
-//          return console.error(err);
-//       }
-
-//       fs.read(fd, buf, 0, buf.length, 0, function(err, bytes) {
-//          if (err) {
-//             console.log(err);
-//          }
-
-//          console.log(bytes + " bytes read");
-
-//          // Print only read bytes to avoid junk.
-//          if (bytes > 0) {
-//             console.log(buf.slice(0, bytes).toString());
-//          }
-
-//          // Close the file
-//          fs.close(fd, function(err) {
-//             if (err) {
-//                console.error(err);
-//             }
-//             console.log("File closed successfully");
-//          });
-//       });
-//    });
-// });
-
+function readingFile(validPath) {
+   return new Promise((resolve, reject) => {
+     fs.readFile(validPath, 'utf-8', (err, data) => {
+       if (err) {
+         reject(err);
+         return;
+       }
+        resolve(data);
+     });
+   });
+ }
 // --------------------------------Exports---------------------------------
 module.exports = {
    getAbsolutePath,
    validatePathExists,
    validateMdExtension,
+   readingFile,
 };
+

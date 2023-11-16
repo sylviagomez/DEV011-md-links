@@ -2,6 +2,7 @@
 const { getAbsolutePath,
    validatePathExists,
    validateMdExtension,
+   readingFile,
 } = require('./functions');
 
 
@@ -12,9 +13,10 @@ function mdLinks(userPath) {
    const absolutePath=getAbsolutePath(userPath);
    validatePathExists(absolutePath)
       .then(() => validateMdExtension(absolutePath))
-      .then(() => {
-         console.log('Todas las validaciones han pasado correctamente.');
-      })
+      .then(() => readingFile(absolutePath))
+      .then(fileContent => {
+         resolve(fileContent);
+       })
       .catch((error) => {
          console.error('Error:', error.message);
       });

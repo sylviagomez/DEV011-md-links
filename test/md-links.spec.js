@@ -1,15 +1,15 @@
-const mdLinks = require ('./index');s
+// const mdLinks = require ('./index');s
 
 
-describe('mdLinks', () => {
+// describe('mdLinks', () => {
 
-  it('should...', () => {
-    console.log('FIX ME!');
-  });
+//   it('should...', () => {
+//     console.log('FIX ME!');
+//   });
 
-});
+// });
 
-const mdLinks = require("md-links");
+// const mdLinks = require("md-links");
 
 // mdLinks("./some/example.md")
 //   .then(links => {

@@ -16,11 +16,14 @@
     "test": "test"
   },
   "scripts": {
-    "test": "npm run test"
+    "test": "jest --coverage"
   },
   "author": "Sylvia Gomez",
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "nodemon": "^3.0.1"
   }
 }

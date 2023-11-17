@@ -10,7 +10,7 @@ const { getAbsolutePath,
 
 function mdLinks(userPath) {
   return new Promise((resolve, reject) => {
-   const absolutePath=getAbsolutePath(userPath);
+   const absolutePath = getAbsolutePath(userPath);
    validatePathExists(absolutePath)
       .then(() => validateMdExtension(absolutePath))
       .then(() => readingFile(absolutePath))

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path'); 
-const filePath = 'docs/01-milestone.md';
+const marked = require('marked');
+const filePath = 'test/archivo-prueba.md';
 
 
 // ------------------------------Absolute path-----------------------------
@@ -44,11 +45,49 @@ function readingFile(validPath) {
      });
    });
  }
-// --------------------------------Exports---------------------------------
+
+// ------------------------------Find Links---------------------------------
+function findLinks(validPath){
+   return new Promise ((resolve, reject) => {
+      readingFile(validPath)
+      .then(fileContent => {
+      // Configura el renderizador personalizado
+      const renderer = new marked.Renderer();
+      const links =[];
+      // link(string href, string title, string text)
+      renderer.link = function (href, title, text) {
+         links.push({
+            href: href,
+            title: validPath,
+            text: text
+          });
+      return href;
+      };
+      // Convierte el contenido del archivo utilizando marked y el renderizador personalizado
+      marked.parse(fileContent, {renderer:renderer});
+      resolve(links);
+      
+      })
+      .catch(error => {
+         reject(error);
+      });
+   });
+}
+
+// --------------------------------Exports----------------------------------
 module.exports = {
    getAbsolutePath,
    validatePathExists,
    validateMdExtension,
    readingFile,
+   findLinks,
 };
+
+findLinks(filePath)
+  .then(links => {
+    console.log(links);
+  })
+  .catch(error => {
+    console.error(error);
+  });
 

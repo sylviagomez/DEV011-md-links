@@ -1,18 +1,29 @@
-// const mdLinks = require ('./index');s
+const mdLinks = require('../src/index'); 
 
+describe('mdLinks', () => {
+  it('debería ser una función', () => {
+    expect(typeof mdLinks).toBe('function');
+  });
 
-// describe('mdLinks', () => {
+  it('debería ser una función que retorna una promesa', () => {
+    const filePath = 'test/archivo-prueba.md';
+    const result = mdLinks(filePath);
+    expect(result).toBeInstanceOf(Promise);
+  });
 
-//   it('should...', () => {
-//     console.log('FIX ME!');
-//   });
+  it('debería resolver con los enlaces del archivo Markdown correctamente', () => {
+    const filePath = 'test/archivo-prueba.md'; 
+    const expectedLinks = {"href": "https://www.google.com/", "text": "https://www.google.com/", "title": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"};
+    expect(mdLinks(filePath)).resolves.toEqual([expectedLinks]);  
+  });
 
-// });
+  it('debería rechazar con un error para una ruta inexistente', () => {
+    const nonExistingPath = '/ruta/inexistente'; 
+    expect(mdLinks(nonExistingPath)).rejects.toThrowError('La ruta no existe');
+  });
 
-// const mdLinks = require("md-links");
-
-// mdLinks("./some/example.md")
-//   .then(links => {
-//     // => [{ href, text, file }, ...]
-//   })
-//   .catch(console.error);
+  it('debería rechazar con un error para un archivo no Markdown', () => {
+    const filePath = 'C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\README.js'; 
+    expect(mdLinks(filePath)).rejects.toThrowError('La ruta no es un archivo Markdown'); 
+});
+})

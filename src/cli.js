@@ -1,5 +1,5 @@
 const mdLinks = require ('./index');
-const filePath = 'docs/01-milestone.md';
+const filePath = 'test/archivo-sinlinks.md';
 
 mdLinks(filePath)
    .then((res) => console.log(res))

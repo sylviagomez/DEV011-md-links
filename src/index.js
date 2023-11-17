@@ -3,6 +3,7 @@ const { getAbsolutePath,
    validatePathExists,
    validateMdExtension,
    readingFile,
+   findLinks,
 } = require('./functions');
 
 
@@ -10,15 +11,15 @@ const { getAbsolutePath,
 
 function mdLinks(userPath) {
   return new Promise((resolve, reject) => {
-   const absolutePath=getAbsolutePath(userPath);
+   const absolutePath = getAbsolutePath(userPath);
    validatePathExists(absolutePath)
       .then(() => validateMdExtension(absolutePath))
-      .then(() => readingFile(absolutePath))
-      .then(fileContent => {
-         resolve(fileContent);
+      .then(() => findLinks(absolutePath))
+      .then(links => {
+         resolve(links);
        })
       .catch((error) => {
-         console.error('Error:', error.message);
+         reject(error)
       });
 });
 };

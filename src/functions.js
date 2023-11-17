@@ -82,12 +82,3 @@ module.exports = {
    readingFile,
    findLinks,
 };
-
-findLinks(filePath)
-  .then(links => {
-    console.log(links);
-  })
-  .catch(error => {
-    console.error(error);
-  });
-

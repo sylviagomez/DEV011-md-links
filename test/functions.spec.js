@@ -1,10 +1,12 @@
 const path = require('path');
 const fs = require('fs');
+const marked = require('marked');
 const {
   getAbsolutePath,
   validatePathExists,
   validateMdExtension,
   readingFile,
+  findLinks,
 } = require('../src/functions');
 
 // -------------------------------getAbsolutePath---------------------------------
@@ -64,9 +66,21 @@ describe('readingFile', () => {
     const filePath = 'C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md'; // Ajusta la ruta a un archivo de prueba en tu sistema
     const fileContent = 'Este es el archivo de prueba https://www.google.com/';
     return expect(readingFile(filePath)).resolves.toBe(fileContent)
-   
   });
 
+  it('debería rechazar con un error para un archivo inexistente', () => {
+    const nonExistingPath = '/ruta/inexistente'; 
+    return expect(readingFile(nonExistingPath)).rejects.toThrowError('no such file or directory');
+  });
+});
+
+// --------------------------------------findLinks-----------------------------------
+describe('findLinks', () => {
+  it('debería encontrar los enlaces en el archivo correctamente', () => {
+    const filePath = 'C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md'; // Ajusta la ruta a un archivo de prueba en tu sistema
+    const fileContent = [{"href": "https://www.google.com/", "text": "https://www.google.com/", "title": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"}];
+    expect(findLinks(filePath)).resolves.toEqual(fileContent)
+  });
   it('debería rechazar con un error para un archivo inexistente', () => {
     const nonExistingPath = '/ruta/inexistente'; 
     return expect(readingFile(nonExistingPath)).rejects.toThrowError('no such file or directory');

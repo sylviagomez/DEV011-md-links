@@ -1,12 +1,14 @@
 const path = require('path');
 const fs = require('fs');
 const marked = require('marked');
+const axios = require('axios');
 const {
   getAbsolutePath,
   validatePathExists,
   validateMdExtension,
   readingFile,
   findLinks,
+  validateLinks,
 } = require('../src/functions');
 
 // -------------------------------getAbsolutePath---------------------------------
@@ -86,3 +88,40 @@ describe('findLinks', () => {
     return expect(readingFile(nonExistingPath)).rejects.toThrowError('no such file or directory');
   });
 });
+
+// --------------------------------------validateLinks-----------------------------------
+jest.mock('axios');
+
+describe('validateLinks', () => {
+  it('debería ser una función que retorna una promesa que resuelve a un array de objetos validados', () => {
+    const links = [
+      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md' },
+    ];
+
+    // Configurar respuestas simuladas de axios para las solicitudes HTTP
+    axios.get.mockResolvedValue({ status: 200, statusText: 'OK' });
+
+    // Ejecutar la función y verificar que resuelva a un array de objetos validados
+    return expect(validateLinks(links)).resolves.toEqual([
+      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 200, ok: 'OK' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 200, ok: 'OK' },
+    ]);
+  });
+
+  it('debería manejar errores en las solicitudes HTTP y resolver a un array de objetos con estado "fail"', () => {
+    const links = [
+      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md' },
+    ];
+
+    // Configurar respuestas simuladas de axios para las solicitudes HTTP
+    axios.get.mockRejectedValue({ status: 404, statusText: 'Not Found' });
+
+    // Ejecutar la función y verificar que resuelva a un array de objetos con estado "fail"
+    return expect(validateLinks(links)).resolves.toEqual([
+      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 404, ok: 'fail' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 404, ok: 'fail' },
+    ]);
+  });
+})

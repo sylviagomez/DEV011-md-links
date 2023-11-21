@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path'); 
 const marked = require('marked');
+const axios = require('axios');
 const filePath = 'test/archivo-prueba.md';
 
 
@@ -74,6 +75,42 @@ function findLinks(validPath){
    });
 }
 
+// -----------------------------Validate Links------------------------------
+function validateLinks(links) {
+   return new Promise((resolve, reject) => {
+      const hrefLinks = links.map((link) => {
+         return axios.get(link.href)
+            .then(function (response) {
+               // Manejar respuesta exitosa
+               if (response.status >= 200 && response.status <= 299) {
+                  return{
+                     ...link,
+                     status: response.status,
+                     ok: response.statusText,
+                  };
+               } 
+            })
+            .catch(function (response) {
+               // Manejar error
+               //reject({error});
+               return{
+                  ...link,
+                     status: response.status,
+                     ok: 'fail',
+               };
+            });
+      })
+      // resolve(Promise.all(hrefLinks))
+      Promise.all(hrefLinks)
+         .then((validatedLinks) => {
+            resolve(validatedLinks);
+         })
+         .catch((error) => {
+            reject(error);
+         });
+   });
+}
+
 // --------------------------------Exports----------------------------------
 module.exports = {
    getAbsolutePath,
@@ -81,4 +118,23 @@ module.exports = {
    validateMdExtension,
    readingFile,
    findLinks,
+   validateLinks,
 };
+
+// validateLinks('http://www.google.com')
+//    .then(result => {
+//       console.log(result);
+//    })
+//    .catch(error => {
+//       console.error(error);
+//    });
+
+// axios.head('www.google.com')
+//   .then(function (response) {
+//     // manejar respuesta exitosa
+//     console.log(response);
+//   })
+//   .catch(function (error) {
+//     // manejar error
+//     console.log(error);
+//   })

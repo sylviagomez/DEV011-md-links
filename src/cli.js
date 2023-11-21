@@ -1,6 +1,7 @@
 const mdLinks = require ('./index');
-const filePath = 'test/archivo-sinlinks.md';
+const path = 'README.MD';
+const validate = true;
 
-mdLinks(filePath)
+mdLinks(path, validate)
    .then((res) => console.log(res))
    .catch((err) => console.log(err));

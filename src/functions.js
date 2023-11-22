@@ -77,7 +77,7 @@ function findLinks(validPath){
 
 // -----------------------------Validate Links------------------------------
 function validateLinks(links) {
-   return new Promise((resolve, reject) => {
+   return new Promise((resolve) => {
       const hrefLinks = links.map((link) => {
          return axios.get(link.href)
             .then(function (response) {
@@ -95,8 +95,8 @@ function validateLinks(links) {
                //reject({error});
                return{
                   ...link,
-                     status: response.status,
-                     ok: 'fail',
+                     status: response.status ? response.status : 'error',
+                     ok: response.statusText ? response.statusText :'fail',
                };
             });
       })
@@ -105,9 +105,6 @@ function validateLinks(links) {
          .then((validatedLinks) => {
             resolve(validatedLinks);
          })
-         .catch((error) => {
-            reject(error);
-         });
    });
 }
 

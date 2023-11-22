@@ -79,7 +79,7 @@ describe('readingFile', () => {
 // --------------------------------------findLinks-----------------------------------
 describe('findLinks', () => {
   it('debería encontrar los enlaces en el archivo correctamente', () => {
-    const filePath = 'C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md'; // Ajusta la ruta a un archivo de prueba en tu sistema
+    const filePath = 'C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md';
     const fileContent = [{"href": "https://www.google.com/", "text": "https://www.google.com/", "title": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"}];
     expect(findLinks(filePath)).resolves.toEqual(fileContent)
   });
@@ -116,12 +116,12 @@ describe('validateLinks', () => {
     ];
 
     // Configurar respuestas simuladas de axios para las solicitudes HTTP
-    axios.get.mockRejectedValue({ status: 404, statusText: 'Not Found' });
+    axios.get.mockRejectedValue({ status: 404, statusText: 'Not found' });
 
     // Ejecutar la función y verificar que resuelva a un array de objetos con estado "fail"
     return expect(validateLinks(links)).resolves.toEqual([
-      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 404, ok: 'fail' },
-      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 404, ok: 'fail' },
+      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 404, ok: 'Not found' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 404, ok: 'Not found' },
     ]);
   });
 })

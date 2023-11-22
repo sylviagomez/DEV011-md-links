@@ -17,8 +17,13 @@
   },
   "scripts": {
     "test": "jest --coverage"
+
   },
-  "author": "Sylvia Gomez",
+  "author": {
+    "name":"Sylvia Gomez", 
+    "email": "syl.gomez.bio@gmail.com",
+    "url": "https://github.com/sylviagomez"
+  },
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.7.0"
@@ -27,5 +32,13 @@
     "axios": "^1.6.2",
     "marked": "^10.0.0",
     "nodemon": "^3.0.1"
+  }, 
+  "bin": { 
+    "name": "md-links",
+    "bin": "cli.js"
+  },  
+  "repository": {
+    "type": "git",
+      "url": "https://github.com/sylviagomez/DEV011-md-links"    
   }
 }

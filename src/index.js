@@ -2,7 +2,6 @@
 const { getAbsolutePath,
    validatePathExists,
    validateMdExtension,
-   readingFile,
    findLinks,
    validateLinks,
 } = require('./functions');

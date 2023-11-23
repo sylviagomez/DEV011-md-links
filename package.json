@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "md-links-sylviagomez",
   "version": "0.1.0",
   "engines": {
     "node": ">=16.x"
@@ -17,13 +17,8 @@
   },
   "scripts": {
     "test": "jest --coverage"
-
   },
-  "author": {
-    "name":"Sylvia Gomez", 
-    "email": "syl.gomez.bio@gmail.com",
-    "url": "https://github.com/sylviagomez"
-  },
+  "author": "Sylvia Gomez <syl.gomez.bio@gmail.com> (https://github.com/sylviagomez)",
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.7.0"
@@ -32,13 +27,20 @@
     "axios": "^1.6.2",
     "marked": "^10.0.0",
     "nodemon": "^3.0.1"
-  }, 
-  "bin": { 
+  },
+  "bin": {
     "name": "md-links",
-    "bin": "cli.js"
-  },  
+    "mdLinks": "./cli.js"
+  },
   "repository": {
     "type": "git",
-      "url": "https://github.com/sylviagomez/DEV011-md-links"    
-  }
+    "url": "git+https://github.com/sylviagomez/DEV011-md-links.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sylviagomez/DEV011-md-links/issues"
+  },
+  "homepage": "https://github.com/sylviagomez/DEV011-md-links#readme",
+  "keywords": [
+    "mdLinks"
+  ]
 }

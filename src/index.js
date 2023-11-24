@@ -2,9 +2,9 @@
 const { getAbsolutePath,
    validatePathExists,
    validateMdExtension,
-   readingFile,
    findLinks,
    validateLinks,
+   statistics,
 } = require('./functions');
 
 
@@ -19,10 +19,21 @@ function mdLinks(userPath, validate) {
       .then(links => {
          if (validate) {
             validateLinks(links)
-            .then(res=>resolve(res))
-         }else{
-            resolve(links);
-         }
+            .then(validatedLinks => {
+               statistics(validatedLinks, validate)
+                  .then(stats => {
+                     resolve({ links: validatedLinks, stats });
+                  })
+                  .catch(error => reject(error));
+            })
+            .catch(error => reject(error));
+      } else {
+         statistics(links, validate)
+            .then(stats => {
+               resolve({ links, stats });
+            })
+            .catch(error => reject(error));
+      }
        })
       .catch((error) => {
          reject(error)

@@ -9,6 +9,7 @@ const {
   readingFile,
   findLinks,
   validateLinks,
+  statistics,
 } = require('../src/functions');
 
 // -------------------------------getAbsolutePath---------------------------------
@@ -98,30 +99,51 @@ describe('validateLinks', () => {
       { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md' },
       { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md' },
     ];
-
-    // Configurar respuestas simuladas de axios para las solicitudes HTTP
+    // mock de axios para las solicitudes HTTP
     axios.get.mockResolvedValue({ status: 200, statusText: 'OK' });
-
-    // Ejecutar la función y verificar que resuelva a un array de objetos validados
     return expect(validateLinks(links)).resolves.toEqual([
       { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 200, ok: 'OK' },
       { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 200, ok: 'OK' },
     ]);
   });
-
   it('debería manejar errores en las solicitudes HTTP y resolver a un array de objetos con estado "fail"', () => {
     const links = [
       { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md' },
       { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md' },
     ];
-
-    // Configurar respuestas simuladas de axios para las solicitudes HTTP
     axios.get.mockRejectedValue({ status: 404, statusText: 'Not found' });
-
-    // Ejecutar la función y verificar que resuelva a un array de objetos con estado "fail"
     return expect(validateLinks(links)).resolves.toEqual([
       { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 404, ok: 'Not found' },
       { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 404, ok: 'Not found' },
     ]);
   });
 })
+
+// ----------------------------------------statistics-----------------------------------
+describe('statistics', () => {
+  it('debería calcular estadísticas sin validación', () => {
+    const linksArray = [
+      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md' },
+      { href: 'https://example.com/link3', text: 'Enlace 3', title: 'archivo.md' },
+      { href: 'https://example.com/link3', text: 'Enlace 3', title: 'archivo.md' },
+    ];
+    return expect(statistics(linksArray, false)).resolves.toEqual({
+      total: 4,
+      unique: 3,
+    });
+  });
+  it('debería calcular estadísticas con validación', () => {
+    const linksArray = [
+      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 200 },
+      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 404 },
+      { href: 'https://example.com/link3', text: 'Enlace 3', title: 'archivo.md', status: 500 },
+      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 200 },
+    ];
+    return expect(statistics(linksArray, true)).resolves.toEqual({
+      total: 4,
+      unique: 3,
+      broken: 2,
+    });
+  });
+});

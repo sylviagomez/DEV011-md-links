@@ -1,6 +1,6 @@
 {
   "name": "md-links-sylviagomez",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "engines": {
     "node": ">=16.x"
   },
@@ -10,7 +10,7 @@
     "commit": "d257c41694344460623eb1f1bb2a690bdfe33f83"
   },
   "description": "* [1. Preámbulo](#1-preámbulo)\r * [2. Resumen del proyecto](#2-resumen-del-proyecto)\r * [3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)\r * [4. Consideraciones generales](#4-consideraciones-generales)\r * [5. Consideraciones técnicas](#5-consideraciones-técnicas)\r * [6. Hitos](#6-hitos)\r * [7. Hacker edition](#7-hacker-edition)\r * [8. Pistas, tips y lecturas complementarias](#8-pistas-tips-y-lecturas-complementarias)\r * [9. Para pedir project feedback](#9-para-pedir-project-feedback)",
-  "main": "index.js",
+  "main": "./index.js",
   "directories": {
     "doc": "docs",
     "test": "test"
@@ -25,8 +25,7 @@
   },
   "dependencies": {
     "axios": "^1.6.2",
-    "marked": "^10.0.0",
-    "nodemon": "^3.0.1"
+    "marked": "^10.0.0"
   },
   "bin": {
     "name": "md-links",

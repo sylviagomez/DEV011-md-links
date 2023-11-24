@@ -76,7 +76,7 @@ function findLinks(validPath){
 }
 
 // -----------------------------Validate Links------------------------------
-function validateLinks(links) {
+function validateLinks(links){
    return new Promise((resolve) => {
       const hrefLinks = links.map((link) => {
          return axios.get(link.href)
@@ -108,6 +108,40 @@ function validateLinks(links) {
    });
 }
 
+// -------------------------Calculate Stadistics----------------------------
+function statistics(linksArray,validate){
+   return new Promise((resolve) => {
+      let total = 0;
+      let unique = 0;
+      let broken = 0;
+      const uniqueLink = [];
+      const brokenLink = [];
+      linksArray.forEach(link => {
+         if (link.href){
+          total ++
+          if (!uniqueLink.includes(link.href)) {
+            uniqueLink.push(link.href);
+            unique++;
+            }
+         }
+      });
+      if (validate) {
+         linksArray.forEach(link => {
+            if (link.status !== undefined && !(link.status >= 200 && link.status <= 299)) {
+               brokenLink.push(link.status);
+               broken++;
+            }
+
+         }); 
+      }
+      if (validate){
+         resolve ({total, unique, broken})
+      }      else{
+         resolve ({total, unique})
+      }      
+   })
+}
+
 // --------------------------------Exports----------------------------------
 module.exports = {
    getAbsolutePath,
@@ -116,22 +150,5 @@ module.exports = {
    readingFile,
    findLinks,
    validateLinks,
+   statistics,
 };
-
-// validateLinks('http://www.google.com')
-//    .then(result => {
-//       console.log(result);
-//    })
-//    .catch(error => {
-//       console.error(error);
-//    });
-
-// axios.head('www.google.com')
-//   .then(function (response) {
-//     // manejar respuesta exitosa
-//     console.log(response);
-//   })
-//   .catch(function (error) {
-//     // manejar error
-//     console.log(error);
-//   })

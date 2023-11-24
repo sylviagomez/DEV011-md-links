@@ -7,6 +7,12 @@ const validate = args.includes('-v', '--validate');
 const stats = args.includes('-s', '--stats')
 
 mdLinks(path, validate)
-   .then((res) => console.log(res))
+   .then((result) => {
+      if (stats) {
+         console.log(result.stats);
+      } else {
+         console.log(result.links);
+      }
+   })
    .catch((err) => console.log(err));
 

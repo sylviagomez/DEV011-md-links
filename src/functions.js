@@ -59,7 +59,7 @@ function findLinks(validPath){
       renderer.link = function (href, title, text) {
          links.push({
             href: href,
-            title: validPath,
+            path: validPath,
             text: text
           });
       return href;

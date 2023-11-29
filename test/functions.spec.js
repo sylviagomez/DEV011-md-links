@@ -81,7 +81,7 @@ describe('readingFile', () => {
 describe('findLinks', () => {
   it('debería encontrar los enlaces en el archivo correctamente', () => {
     const filePath = 'C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md';
-    const fileContent = [{"href": "https://www.google.com/", "text": "https://www.google.com/", "title": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"}];
+    const fileContent = [{"href": "https://www.google.com/", "text": "https://www.google.com/", "path": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"}];
     expect(findLinks(filePath)).resolves.toEqual(fileContent)
   });
   it('debería rechazar con un error para un archivo inexistente', () => {
@@ -96,25 +96,25 @@ jest.mock('axios');
 describe('validateLinks', () => {
   it('debería ser una función que retorna una promesa que resuelve a un array de objetos validados', () => {
     const links = [
-      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md' },
-      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md' },
+      { href: 'https://example.com/link1', text: 'Enlace 1', path: 'archivo.md' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', path: 'archivo.md' },
     ];
     // mock de axios para las solicitudes HTTP
     axios.get.mockResolvedValue({ status: 200, statusText: 'OK' });
     return expect(validateLinks(links)).resolves.toEqual([
-      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 200, ok: 'OK' },
-      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 200, ok: 'OK' },
+      { href: 'https://example.com/link1', text: 'Enlace 1', path: 'archivo.md', status: 200, ok: 'OK' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', path: 'archivo.md', status: 200, ok: 'OK' },
     ]);
   });
   it('debería manejar errores en las solicitudes HTTP y resolver a un array de objetos con estado "fail"', () => {
     const links = [
-      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md' },
-      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md' },
+      { href: 'https://example.com/link1', text: 'Enlace 1', path: 'archivo.md' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', path: 'archivo.md' },
     ];
     axios.get.mockRejectedValue({ status: 404, statusText: 'Not found' });
     return expect(validateLinks(links)).resolves.toEqual([
-      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 404, ok: 'Not found' },
-      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 404, ok: 'Not found' },
+      { href: 'https://example.com/link1', text: 'Enlace 1', path: 'archivo.md', status: 404, ok: 'Not found' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', path: 'archivo.md', status: 404, ok: 'Not found' },
     ]);
   });
 })
@@ -123,10 +123,10 @@ describe('validateLinks', () => {
 describe('statistics', () => {
   it('debería calcular estadísticas sin validación', () => {
     const linksArray = [
-      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md' },
-      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md' },
-      { href: 'https://example.com/link3', text: 'Enlace 3', title: 'archivo.md' },
-      { href: 'https://example.com/link3', text: 'Enlace 3', title: 'archivo.md' },
+      { href: 'https://example.com/link1', text: 'Enlace 1', path: 'archivo.md' },
+      { href: 'https://example.com/link2', text: 'Enlace 2', path: 'archivo.md' },
+      { href: 'https://example.com/link3', text: 'Enlace 3', path: 'archivo.md' },
+      { href: 'https://example.com/link3', text: 'Enlace 3', path: 'archivo.md' },
     ];
     return expect(statistics(linksArray, false)).resolves.toEqual({
       total: 4,
@@ -135,10 +135,10 @@ describe('statistics', () => {
   });
   it('debería calcular estadísticas con validación', () => {
     const linksArray = [
-      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 200 },
-      { href: 'https://example.com/link2', text: 'Enlace 2', title: 'archivo.md', status: 404 },
-      { href: 'https://example.com/link3', text: 'Enlace 3', title: 'archivo.md', status: 500 },
-      { href: 'https://example.com/link1', text: 'Enlace 1', title: 'archivo.md', status: 200 },
+      { href: 'https://example.com/link1', text: 'Enlace 1', path: 'archivo.md', status: 200 },
+      { href: 'https://example.com/link2', text: 'Enlace 2', path: 'archivo.md', status: 404 },
+      { href: 'https://example.com/link3', text: 'Enlace 3', path: 'archivo.md', status: 500 },
+      { href: 'https://example.com/link1', text: 'Enlace 1', path: 'archivo.md', status: 200 },
     ];
     return expect(statistics(linksArray, true)).resolves.toEqual({
       total: 4,

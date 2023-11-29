@@ -25,7 +25,7 @@ it('debería resolver con los enlaces del archivo Markdown correctamente (sin va
   const expectedLinks = {"links": 
   [{"href": "https://www.google.com/", 
   "text": "https://www.google.com/", 
-  "title": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"}], 
+  "path": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"}], 
   "stats": {"total": 1, "unique": 1}
   }
 
@@ -38,7 +38,7 @@ it('debería resolver con los enlaces del archivo Markdown correctamente (con va
   [{"href": "https://www.google.com/", 
   "ok": "OK", "status": 200, 
   "text": "https://www.google.com/", 
-  "title": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"}], 
+  "path": "C:\\Users\\vicia\\Documents\\Laboratoria\\DEV011-md-links\\test\\archivo-prueba.md"}], 
   "stats": {"broken": 0, "total": 1, "unique": 1}
   }
   return expect(mdLinks(filePath, true)).resolves.toEqual(expectedValidatedLinks);
